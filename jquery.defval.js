@@ -3,7 +3,7 @@
  *
  * The MIT License
  * 
- * Copyright (c) 2011 Thomas Mattern (tomm@tdmarketing.co.nz)
+ * Copyright (c) 2011 Thomas Mattern (thomas.mattern@gmail.com)
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,27 +37,33 @@
 		
 		return(
 			elements.each(function() {				
-				
 				// Default values within scope
 				var el = $(this);
 				var def = args[c++];
 				
+				var par=el.parent();
+				if(!par.css("position")) {  par.css("position","relative"); }            // add position attribute to parent container if not set
+								
 				var pos=el.position();
-				var hgt=el.height();
-				var display;
+				var hgt=el.outerHeight();                                                // get input outerHeight to set vertical alignment via line height
+				var pad='0px '+el.css("padding-right")+' 0px '+el.css("padding-left");   // use left and right padding of input element to set horizontal alignment
 				
-				if(!el.parent().css("position")) {  el.parent().css("position","relative"); }
-				if(!el.val()) { display="block"; } else { display="none"; }
-				el.before('<span class="defval" style="position: absolute; top: '+pos.top+'px; left: '+pos.left+'px;line-height:'+hgt+'px; display:'+display+'">'+def+'</span>');
-				el.prev("span").click(function() { $(this).next("input").focus(); });
+				var display;
+				if(!el.val()) { 
+					display="block"; 
+				} else { 
+					display="none"; 
+				}
+				el.after('<span class="defval" style="position: absolute; top: '+pos.top+'px; left: '+pos.left+'px; line-height:'+hgt+'px; display:'+display+'; padding:'+pad+'">'+def+'</span>');
+				el.next("span").click(function() { $(this).prev("input").focus(); });
 				el.focus(function() {
-					if(el.prev("span").css("display")=="block") {
-						el.prev("span").fadeOut(100);
+					if(el.next("span").css("display")=="block") {
+						el.next("span").fadeOut(200);
 					}
 				});
 				el.blur(function() {
 					if(el.val() == "") {
-						el.prev("span").fadeIn(100);
+						el.next("span").fadeIn(200);
 					}
 				}); 
 				
