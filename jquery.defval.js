@@ -3,7 +3,7 @@
  *
  * The MIT License
  * 
- * Copyright (c) 2011 Thomas Mattern (tomm@tdmarketing.co.nz)
+ * Copyright (c) 2011 Thomas Mattern (thomas.mattern@gmail.com)
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
