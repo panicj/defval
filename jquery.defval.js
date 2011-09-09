@@ -27,47 +27,79 @@
  * @return		Array
  */
 (function($) {
-	
-	$.fn.defval = function() {
-		
-		// Scope
-		var elements = this;
-		var args = arguments;
-		var c = 0;
-		
-		return(
-			elements.each(function() {				
-				// Default values within scope
-				var el = $(this);
-				var def = args[c++];
-				
-				var par=el.parent();
-				if(!par.css("position")) {  par.css("position","relative"); }            // add position attribute to parent container if not set
-								
-				var pos=el.position();
-				var hgt=el.outerHeight();                                                // get input outerHeight to set vertical alignment via line height
-				var pad='0px '+el.css("padding-right")+' 0px '+el.css("padding-left");   // use left and right padding of input element to set horizontal alignment
-				
-				var display;
-				if(!el.val()) { 
-					display="block"; 
-				} else { 
-					display="none"; 
-				}
-				el.after('<span class="defval" style="position: absolute; top: '+pos.top+'px; left: '+pos.left+'px; line-height:'+hgt+'px; display:'+display+'; padding:'+pad+'">'+def+'</span>');
-				el.next("span").click(function() { $(this).prev("input").focus(); });
-				el.focus(function() {
-					if(el.next("span").css("display")=="block") {
-						el.next("span").fadeOut(200);
-					}
-				});
-				el.blur(function() {
-					if(el.val() == "") {
-						el.next("span").fadeIn(200);
-					}
-				}); 
-				
-			})
-		);
-	}
-})(jQuery)
+    
+    $.fn.defval = function(dv, options) {
+        
+        // Scope
+        var elements = this;
+        var val = dv;
+        
+        // settings
+        var settings = {
+              animationIn            : 'fadeIn',
+              animationOut          : 'fadeOut',
+            durationIn            : 200,
+            durationOut            : 200
+        };
+        
+        return(
+            elements.each(function() {    
+                if ( options ) { $.extend( settings, options ); }
+    
+                var el = $(this);
+                var def = val;
+                
+                var par=el.parent();
+                if(!par.css("position")) {  par.css("position","relative"); }            // add position attribute to parent container if not set
+                                
+                var pos=el.position();
+                var hgt=el.outerHeight();                                                // get input outerHeight to set vertical alignment via line height
+                var pad='0px '+el.css("padding-right")+' 0px '+el.css("padding-left");   // use left and right padding of input element to set horizontal alignment
+                
+                var display;
+                if(!el.val()) {
+                    display="block";
+                } else {
+                    display="none";
+                }
+                el.after('<span class="defval">'+def+'</span>');
+                var df=el.next("span");
+                df.css({                                                                
+                     "position"        : "absolute",
+                     "top"            : pos.top+"px",
+                     "left"            : pos.left+"px",
+                     "line-height"    : hgt+"px",
+                     "display"        : display,
+                     "padding"        : pad
+                });
+                df.click(function() { $(this).prev("input").focus(); });                 // delegate focus to input field of overlay is clicked
+    
+                var $out=function() {
+                    if(settings.animationIn=="slideDown") {
+                        df.slideDown(settings.durationIn);
+                    } else {
+                        df.fadeIn(settings.durationIn);
+                    }
+                };
+                var $in=function() {
+                    if(settings.animationIn=="slideUp") {
+                        df.slideUp(settings.durationIn);
+                    } else {
+                        df.fadeOut(settings.durationIn);
+                    }
+                };
+                el.focus(function() {
+                    if(df.css("display")=="block") {
+                        $in();
+                    }
+                });
+                el.blur(function() {
+                    if(el.val() === "") {
+                        $out();
+                    }
+                });
+                
+            })
+        );
+    };
+})(jQuery);
