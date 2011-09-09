@@ -83,9 +83,9 @@
                 };
                 var $in=function() {
                     if(settings.animationIn=="slideUp") {
-                        df.slideUp(settings.durationIn);
+                        df.slideUp(settings.durationOut);
                     } else {
-                        df.fadeOut(settings.durationIn);
+                        df.fadeOut(settings.durationOut);
                     }
                 };
                 el.focus(function() {
