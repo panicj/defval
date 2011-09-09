@@ -76,16 +76,16 @@
     
                 var $out=function() {
                     if(settings.animationIn=="slideDown") {
-                        df.slideDown(settings.durationIn);
+                        df.slideDown(options.durationIn);
                     } else {
-                        df.fadeIn(settings.durationIn);
+                        df.fadeIn(options.durationIn);
                     }
                 };
                 var $in=function() {
                     if(settings.animationIn=="slideUp") {
-                        df.slideUp(settings.durationOut);
+                        df.slideUp(options.durationOut);
                     } else {
-                        df.fadeOut(settings.durationOut);
+                        df.fadeOut(options.durationOut);
                     }
                 };
                 el.focus(function() {
