@@ -50,8 +50,8 @@
                 var def = val;
                 
                 var par=el.parent();
-                if(!par.css("position")) {  par.css("position","relative"); }            // add position attribute to parent container if not set
-                                
+                if(par.css("position")=="static") {  par.css("position","relative"); }   // add position attribute to parent container if not set
+               
                 var pos=el.position();
                 var hgt=el.outerHeight();                                                // get input outerHeight to set vertical alignment via line height
                 var pad='0px '+el.css("padding-right")+' 0px '+el.css("padding-left");   // use left and right padding of input element to set horizontal alignment
