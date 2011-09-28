@@ -72,7 +72,7 @@
                      "display"        : display,
                      "padding"        : pad
                 });
-                df.click(function() { $(this).prev("input").focus(); });                 // delegate focus to input field of overlay is clicked
+                df.live('click',function() { $(this).prev("input").focus(); });                 // delegate focus to input field of overlay is clicked
     
                 var $out=function() {
                     if(settings.animationIn=="slideDown") {
@@ -88,12 +88,12 @@
                         df.fadeOut(options.durationOut);
                     }
                 };
-                el.focus(function() {
+                el.live('focus',function() {
                     if(df.css("display")=="block") {
                         $in();
                     }
                 });
-                el.blur(function() {
+                el.live('blur',function() {
                     if(el.val() === "") {
                         $out();
                     }
